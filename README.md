@@ -33,10 +33,11 @@ python src/main.py  --root ./Aircraft --batch_size 24 --logdir vis/ --gpu_id 2 -
 ```
 Citation
 If you find this code or idea useful, please cite our work:
-
+```
 @inproceedings{shu2022improving,
   title={Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism},
   author={Shu, yangyang and Liu, Lingqiao and Yu, baosheng and Xu, haiming},
   booktitle={ European Conference on Computer Vision (ECCV)},
   year={2022}
 }
+```
