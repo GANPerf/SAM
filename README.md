@@ -21,7 +21,7 @@ To tackle this issue, this paper proposes the self-boosting attention mechanism,
 ## Datasets
 | Dataset | Download Link |
 | -- | -- |
-| CUB-200-2011 | http://www.vision.caltech.edu/visipedia/CUB-200-2011.html |
+| CUB-200-2011 | https://paperswithcode.com/dataset/cub-200-2011 |
 | Stanford Cars | http://ai.stanford.edu/~jkrause/cars/car_dataset.html |
 | FGVC Aircraft | http://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/ |
 
