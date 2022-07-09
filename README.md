@@ -1,5 +1,5 @@
 # Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism 
-## ECCV2022 Accept Paper
+## ECCV2022 Accepted Paper
 
 ## Brief Introduction for Self-Boosting Attention Mechanism 
 The challenge of fine-grained visual recognition often lies in discovering the key discriminative regions. While such regions can be automatically identified from a large-scale labeled dataset, a similar method might become less effective when only a few annotations are available. In low data regimes, a network often struggles to choose the correct regions for recognition and tends to overfit spurious correlated patterns from the training data.
