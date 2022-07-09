@@ -1,5 +1,9 @@
 # Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism 
-## ECCV2022 Accepted Paper
+
+This project contains the implementation of SAM for fine-grained visual recognition in low data regimes, as presented in our paper
+> Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism,   
+> Yangyang Shu, Lingqiao Liu, Baosheng Yu and Hai-Ming Xu,   
+> *To be appeared in ECCV 2022*
 
 ## Brief Introduction for Self-Boosting Attention Mechanism 
 The challenge of fine-grained visual recognition often lies in discovering the key discriminative regions. While such regions can be automatically identified from a large-scale labeled dataset, a similar method might become less effective when only a few annotations are available. In low data regimes, a network often struggles to choose the correct regions for recognition and tends to overfit spurious correlated patterns from the training data.
