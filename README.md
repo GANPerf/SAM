@@ -1,7 +1,10 @@
 # Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism 
-#ECCV2022 Submission Paper ID 6680
+#ECCV2022 Accept Paper
 
+##Brief Introduction for Self-Boosting Attention Mechanism 
+The challenge of fine-grained visual recognition often lies in discovering the key discriminative regions. While such regions can be automatically identified from a large-scale labeled dataset, a similar method might become less effective when only a few annotations are available. In low data regimes, a network often struggles to choose the correct regions for recognition and tends to overfit spurious correlated patterns from the training data.
 
+To tackle this issue, this paper proposes the self-boosting attention mechanism, a novel method for regularizing the network to focus on the key regions shared across samples and classes. Specifically, the proposed method first generates an attention map for each training image, highlighting the discriminative part for identifying the ground-truth object category. Then the generated attention maps are used as pseudo-annotations. The network is enforced to fit them as an auxiliary task. We call this approach the self-boosting attention mechanism (SAM). We also develop a variant by using SAM to create multiple attention maps to pool convolutional maps in a style of bilinear pooling, dubbed SAM-Bilinear.
 
 ## Dependencies
 * python3.6
@@ -28,4 +31,12 @@ python src/main.py  --root ./CUB200 --batch_size 24 --logdir vis/ --gpu_id 1 --b
 python src/main.py  --root ./Aircraft --batch_size 24 --logdir vis/ --gpu_id 2 --backbone resnet50 --label_ratio 10 --pretrained
 
 ```
+Citation
+If you find this code or idea useful, please cite our work:
 
+@inproceedings{shu2022improving,
+  title={Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism},
+  author={Shu, yangyang and Liu, Lingqiao and Yu, baosheng and Xu, haiming},
+  booktitle={ European Conference on Computer Vision (ECCV)},
+  year={2022}
+}
