@@ -26,6 +26,19 @@ To tackle this issue, this paper proposes the self-boosting attention mechanism,
 | FGVC Aircraft | http://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/ |
 
 
+Please download and organize the datasets in this structure:
+```
+SAM
+├── CUB200/
+│   ├── train/ 
+    ├── test/
+├── StanfordCars/
+│   ├── train/ 
+    ├── test/
+├── Aircraft/
+│   ├── train/ 
+    ├── test/
+```
 
 ## RUN
 - The running commands for several datasets are shown below. Please refer to ``run.sh`` for commands for datasets with other label ratios and label category.
