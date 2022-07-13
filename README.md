@@ -32,12 +32,15 @@ SAM
 ├── CUB200/
 │   ├── train/ 
     ├── test/
+    ├── image_list/
 ├── StanfordCars/
 │   ├── train/ 
     ├── test/
+    ├── image_list/
 ├── Aircraft/
 │   ├── train/ 
     ├── test/
+    ├── image_list/
 ```
 
 ## RUN
