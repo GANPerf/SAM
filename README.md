@@ -3,7 +3,7 @@
 This project contains the implementation of SAM for fine-grained visual recognition in low data regimes, as presented in our paper
 
 > Improving Fine-Grained Visual Recognition in Low Data Regimes via Self-Boosting Attention Mechanism,   
-> Yangyang Shu, Lingqiao Liu, Baosheng Yu and Hai-Ming Xu,   
+> Yangyang Shu, Baosheng Yu, Hai-Ming Xu and Lingqiao Liu*  
 > *To be appeared in ECCV 2022*
 
 ## Brief Introduction for Self-Boosting Attention Mechanism 
