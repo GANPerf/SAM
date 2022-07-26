@@ -100,7 +100,7 @@ class SAM(nn.Module):
         featcov16= self.conv16(featmap)
         featcov16 = self.bn16(featcov16)
         featcov16 = self.relu(featcov16)
-        '''
+        
         feat_matrix = torch.zeros(featcov16.size(0),16,2048)
 
         for i in range(16):
@@ -115,7 +115,7 @@ class SAM(nn.Module):
 			
         bp_out_feat= feat_matrix.view(feat_matrix.size(0), -1)
 
-        
+        '''
         # CBP
         cbp_dim = 500
 
