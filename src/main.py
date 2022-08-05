@@ -97,8 +97,8 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
         label = data_labeled[1].to(device)
 
         feat_labeled, featmap_q, featcov16, bp_out_feat = model(img_labeled_q)
-		
-        out, cam_weight = classifier(feat_labeled.cuda())
+	
+        out, cam_weight = classifier(feat_labeled.cuda()) #feat_labeled/bp_out_feat
 
         #CAM
 
@@ -304,7 +304,7 @@ def main():
     network, feature_dim = load_network(args.backbone)
     model = SAM(network=network, backbone=args.backbone, projector_dim=args.projector_dim,
                        class_num=args.class_num, pretrained=args.pretrained, pretrained_path=args.pretrained_path).to(device)
-    classifier = Classifier(2048, args.class_num).to(device)
+    classifier = Classifier(2048, args.class_num).to(device)   #2048/num of bilinear 2048*16
 
     print("backbone params: {:.2f}M".format(sum(p.numel() for p in model.parameters()) / 1e6 / 2))
     print("classifier params: {:.2f}M".format(sum(p.numel() for p in classifier.parameters()) / 1e6))
