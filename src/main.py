@@ -96,7 +96,7 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
         img_labeled_q = data_labeled[0][0].to(device)
         label = data_labeled[1].to(device)
 
-        feat_labeled, featmap_q, featcov16, bp_out_feat = model(img_labeled_q)
+        feat_labeled, featmap_q, featcov16, bp_out_feat, network = model(img_labeled_q)
 	
         out, cam_weight = classifier(feat_labeled.cuda()) #feat_labeled/bp_out_feat
 
