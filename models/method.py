@@ -85,7 +85,7 @@ class SAM(nn.Module):
 
         '''
 
-        return q_f, featmap_q, featcov16, bp_out_feat
+        return q_f, featmap_q, featcov16, bp_out_feat, self.encoder
 
     def load_pretrained(self, network):
         if 'resnet' in self.backbone:
