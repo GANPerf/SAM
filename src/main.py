@@ -122,8 +122,11 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
          "eigengradcam": EigenGradCAM,
          "layercam": LayerCAM,
          "fullgrad": FullGrad}
-        network, feature_dim = load_network(args.backbone)
-        modelcam = network()
+	
+	modelcam = resnet50(num_classes=args.projector_dim)
+	for paramback, paramcam in zip(network.parameters(), modelcam.parameters()):
+		paramcam.data.copy_(paramback.data)
+   
         target_layers = [modelcam.layer4[-1]]
 
         input_tensor_labeled_q = img_labeled_q
