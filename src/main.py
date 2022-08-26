@@ -16,6 +16,7 @@ from torch.autograd import Variable
 from models.classifier import Classifier
 from models.method import SAM
 from tensorboardX import SummaryWriter
+from models.resnet import resnet18, resnet34, resnet50, resnet152, resnet101
 from src.utils import load_network, load_data
 
 #from src.CompactBilinearPooling import CompactBilinearPooling
@@ -123,7 +124,7 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
          "layercam": LayerCAM,
          "fullgrad": FullGrad}
 	
-	modelcam = resnet50(num_classes=args.projector_dim)
+	modelcam = resnet50(projector_dim==args.projector_dim)
 	for paramback, paramcam in zip(network.parameters(), modelcam.parameters()):
 		paramcam.data.copy_(paramback.data)
    
