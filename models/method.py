@@ -7,7 +7,7 @@ import numpy as np
 from torchvision.models import resnet50
 
 class SAM(nn.Module):
-    def __init__(self, network, backbone, projector_dim=args.projector_dim, class_num=200, pretrained=True, pretrained_path=None):
+    def __init__(self, network, backbone, projector_dim=1024, class_num=200, pretrained=True, pretrained_path=None):
         """
         network: the network of the backbone
         backbone: the name of the backbone
@@ -48,10 +48,10 @@ class SAM(nn.Module):
 
     def forward(self, im_q):
 
-        q_c, q_f, featmap_q = self.encoder_q(im_q)
+        q_c, q_f, featmap = self.encoder(im_q)
 		
 		
-        featcov16= self.conv16(featmap_q)
+        featcov16= self.conv16(featmap)
         featcov16 = self.bn16(featcov16)
 
 
@@ -61,7 +61,7 @@ class SAM(nn.Module):
             matrix = featcov16[:,i,:,:]
             matrix = matrix[:,None,:,:]
             matrix = matrix.repeat(1,2048,1,1)
-            PFM = featmap_q*matrix
+            PFM = featmap*matrix
             aa =self.avgpool(PFM)
             feat_matrix[:,i,:] = aa.view(aa.size(0), -1)
 			
@@ -85,16 +85,16 @@ class SAM(nn.Module):
 
         '''
 
-        return q_f, featmap_q, featcov16, bp_out_feat, self.encoder
+        return q_f, featmap, featcov16, bp_out_feat, self.encoder
 
     def load_pretrained(self, network):
         if 'resnet' in self.backbone:
             q = network(projector_dim=1000, pretrained=self.pretrained)
-            q.fc = self.encoder_q.fc
-            self.encoder_q = q
+            q.fc = self.encoder.fc
+            self.encoder = q
 
     def inference(self, img):
-        y, feat,featmap = self.encoder_q(img)
+        y, feat,featmap = self.encoder(img)
         
 		
         featcov16= self.conv16(featmap)
@@ -107,13 +107,15 @@ class SAM(nn.Module):
             matrix = featcov16[:,i,:,:]
             matrix = matrix[:,None,:,:]
             matrix = matrix.repeat(1,2048,1,1)
-            PFM = featmap_q*matrix
+            PFM = featmap*matrix
             aa = self.avgpool(PFM)
         
 
             feat_matrix[:,i,:] = aa.view(aa.size(0), -1)
-			
-        bp_out_feat= feat_matrix.view(feat_matrix.size(0), -1)
+
+
+        #alternatively for feature in gradcam
+        #bp_out_feat= feat_matrix.view(feat_matrix.size(0), -1)
 
         '''
         # CBP
@@ -131,7 +133,7 @@ class SAM(nn.Module):
         bp_out_feat = self.bncbp(bp_out_feat.cuda())
 
         '''
-        #return bp_out_feat, featcov16
+        #return bp_out_feat, featcov16   # alternatively for feature in gradcam
         return feat.cuda(),featcov16
 
 
