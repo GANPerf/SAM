@@ -16,7 +16,7 @@ from torch.autograd import Variable
 from models.classifier import Classifier
 from models.method import SAM
 from tensorboardX import SummaryWriter
-from models.resnet import resnet18, resnet34, resnet50, resnet152, resnet101
+from models.resnet import resnet18, resnet34, resnet50, resnet152, resnet101, ResBase, FeatB
 from src.utils import load_network, load_data
 
 #from src.CompactBilinearPooling import CompactBilinearPooling
@@ -40,7 +40,7 @@ from pytorch_grad_cam.utils.image import show_cam_on_image, \
     preprocess_image
 
 import torch.nn.functional as F
-
+import copy
 
 def test(loader, model, classifier, device):
     with torch.no_grad():
@@ -124,11 +124,24 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
          "layercam": LayerCAM,
          "fullgrad": FullGrad}
 
-        model_f = resnet50(projector_dim=args.projector_dim)
+        model_f = ResBase().cuda()
+	model_f.conv1 = copy.deepcopy(network.conv1)
+	model_f.bn1 = copy.deepcopy(network.bn1)
+	model_f.relu = copy.deepcopy(network.relu)
+	model_f.maxpool = copy.deepcopy(network.maxpool)
+	model_f.layer1 = copy.deepcopy(network.layer1)
+	model_f.layer2 = copy.deepcopy(network.layer2)
+	model_f.layer3 = copy.deepcopy(network.layer3)
+	model_f.layer4 = copy.deepcopy(network.layer4)
+	
+	net_bilinear = FeatB().cuda()
+	net_bilinear.conv16 = copy.deepcopy(model.conv16)
+	net_bilinear.bn16 = copy.deepcopy(model.bn16)
+	
         for paramback, param_f in zip(network.parameters(), model_f.parameters()):
             param_f.data.copy_(paramback.data)
    
-	modelcam = nn.Sequential(model_f,classifier)
+	modelcam = nn.Sequential(model_f, net_bilinear, classifier)
         target_layers = [model_f.layer4[-1]]
 
         # along with line 152
