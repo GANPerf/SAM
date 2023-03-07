@@ -124,10 +124,11 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
          "layercam": LayerCAM,
          "fullgrad": FullGrad}
 
-        modelcam = resnet50(projector_dim=args.projector_dim)
-        for paramback, paramcam in zip(network.parameters(), modelcam.parameters()):
-            paramcam.data.copy_(paramback.data)
+        model_f = resnet50(projector_dim=args.projector_dim)
+        for paramback, param_f in zip(network.parameters(), model_f.parameters()):
+            param_f.data.copy_(paramback.data)
    
+	modelcam = nn.Sequential(model_f,classifier)
         target_layers = [modelcam.layer4[-1]]
 
         # along with line 152
