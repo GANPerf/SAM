@@ -141,7 +141,7 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
         #for paramback, param_f in zip(network.parameters(), model_f.parameters()):
             #param_f.data.copy_(paramback.data)
    
-	modelcam = nn.Sequential(model_f, net_bilinear, classifier)
+	modelcam = nn.Sequential(model_f, net_bilinear, classifier) #classifier should be 16*2048->class_num
         target_layers = [model_f.layer4[-1]]
 
         # along with line 152
