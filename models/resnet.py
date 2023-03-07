@@ -250,9 +250,9 @@ class ResBase(nn.Module):
         featmap = self.layer4(x)
         return featmap
 
-class feat_bilinear(nn.Module):
-    def __init__(self, feature_dim, bottleneck_dim=256):
-        super(feat_bilinear, self).__init__()
+class FeatB(nn.Module):
+    def __init__(self, featmap, bottleneck_dim=16*2048):
+        super(FeatB, self).__init__()
 	self.conv16 = nn.Conv2d(2048, 16, kernel_size=1, stride=1, padding=0,
                                bias=False)
         self.bn16 = nn.BatchNorm2d(16)
