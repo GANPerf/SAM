@@ -129,7 +129,7 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
             param_f.data.copy_(paramback.data)
    
 	modelcam = nn.Sequential(model_f,classifier)
-        target_layers = [modelcam.layer4[-1]]
+        target_layers = [model_f.layer4[-1]]
 
         # along with line 152
         '''
