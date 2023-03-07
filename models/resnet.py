@@ -225,7 +225,7 @@ def resnet152(pretrained=False, **kwargs):
 
 
 class ResBase(nn.Module):
-    def __init__(self, res_name):
+    def __init__(self):
         super(ResBase, self).__init__()
         model_resnet = models.resnet50(pretrained=True)
         self.conv1 = model_resnet.conv1
@@ -251,7 +251,7 @@ class ResBase(nn.Module):
         return featmap
 
 class FeatB(nn.Module):
-    def __init__(self, featmap, bottleneck_dim=16*2048):
+    def __init__(self):
         super(FeatB, self).__init__()
 	self.conv16 = nn.Conv2d(2048, 16, kernel_size=1, stride=1, padding=0,
                                bias=False)
