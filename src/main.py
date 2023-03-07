@@ -138,8 +138,8 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
 	net_bilinear.conv16 = copy.deepcopy(model.conv16)
 	net_bilinear.bn16 = copy.deepcopy(model.bn16)
 	
-        for paramback, param_f in zip(network.parameters(), model_f.parameters()):
-            param_f.data.copy_(paramback.data)
+        #for paramback, param_f in zip(network.parameters(), model_f.parameters()):
+            #param_f.data.copy_(paramback.data)
    
 	modelcam = nn.Sequential(model_f, net_bilinear, classifier)
         target_layers = [model_f.layer4[-1]]
