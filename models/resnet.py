@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 import numpy as np
 import torch
+from torchvision import models
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
@@ -221,3 +222,55 @@ def resnet152(pretrained=False, **kwargs):
     if pretrained:
         model.load_state_dict(model_zoo.load_url(model_urls['resnet152']))
     return model
+
+
+class ResBase(nn.Module):
+    def __init__(self, res_name):
+        super(ResBase, self).__init__()
+        model_resnet = models.resnet50(pretrained=True)
+        self.conv1 = model_resnet.conv1
+        self.bn1 = model_resnet.bn1
+        self.relu = model_resnet.relu
+        self.maxpool = model_resnet.maxpool
+        self.layer1 = model_resnet.layer1
+        self.layer2 = model_resnet.layer2
+        self.layer3 = model_resnet.layer3
+        self.layer4 = model_resnet.layer4
+        self.avgpool = model_resnet.avgpool
+        self.in_features = model_resnet.fc.in_features
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        featmap = self.layer4(x)
+        return featmap
+
+class feat_bilinear(nn.Module):
+    def __init__(self, feature_dim, bottleneck_dim=256):
+        super(feat_bilinear, self).__init__()
+	self.conv16 = nn.Conv2d(2048, 16, kernel_size=1, stride=1, padding=0,
+                               bias=False)
+        self.bn16 = nn.BatchNorm2d(16)
+	
+    def forward(self, featmap):
+	
+        featcov16= self.conv16(featmap)
+        featcov16 = self.bn16(featcov16)
+	
+        #bp————————————————————————
+        feat_matrix = torch.zeros(featcov16.size(0),16,2048)
+        for i in range(16):
+            matrix = featcov16[:,i,:,:]
+            matrix = matrix[:,None,:,:]
+            matrix = matrix.repeat(1,2048,1,1)
+            PFM = featmap*matrix
+            aa =self.avgpool(PFM)
+            feat_matrix[:,i,:] = aa.view(aa.size(0), -1)
+			
+        bp_out_feat = feat_matrix.view(feat_matrix.size(0), -1)
+        return bp_out_feat
