@@ -124,6 +124,9 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
          "layercam": LayerCAM,
          "fullgrad": FullGrad}
 
+	
+	'''
+	# model for gradcam
         model_f = ResBase().cuda()
 	model_f.conv1 = copy.deepcopy(network.conv1)
 	model_f.bn1 = copy.deepcopy(network.bn1)
@@ -137,14 +140,17 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
 	net_bilinear = FeatB().cuda()
 	net_bilinear.conv16 = copy.deepcopy(model.conv16)
 	net_bilinear.bn16 = copy.deepcopy(model.bn16)
-	
-        #for paramback, param_f in zip(network.parameters(), model_f.parameters()):
-            #param_f.data.copy_(paramback.data)
    
-	modelcam = nn.Sequential(model_f, net_bilinear, classifier) #classifier should be 16*2048->class_num
-        target_layers = [model_f.layer4[-1]]
+	model_gradcam = nn.Sequential(model_f, net_bilinear, classifier) #classifier should be 16*2048->class_num
+	'''
+	
+	# for cam
+	for paramback, param_cam in zip(network.parameters(), model_cam.parameters()):
+            param_cam.data.copy_(paramback.data)
+	
+        target_layers = [model_cam.layer4[-1]]  #model_cam/model_f
 
-        # along with line 152
+        # along with line 172
         '''
         input_tensor_labeled_q = img_labeled_q
         target_category = label
@@ -153,7 +159,7 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
         #GradCAM
         cam_algorithm = methods[args.method] 
 
-        with cam_algorithm(model=modelcam,
+        with cam_algorithm(model=model_cam,  #model_cam/model_gradcam for CAM/GradCAM
                            target_layers=target_layers,
                            use_cuda=args.use_cuda) as cam:
         
