@@ -11,8 +11,9 @@ def download_data(root: str, file_name: str, archive_name: str, url_link: str):
         #     os.remove(os.path.join(root, archive_name))
         try:
             download_and_extract_archive(url_link, download_root=root, filename=archive_name, remove_finished=False)
-        except Exception:
-            print("Fail to download {} from url link {}".format(archive_name, url_link))
+        except Exception as ex:
+            print(f"Fail to download {archive_name} from url link {url_link}.")
+            print(f"Exception: {ex}")
             print('Please check you internet connection or '
                   "reinstall DALIB by 'pip install --upgrade dalib'")
             exit(0)
