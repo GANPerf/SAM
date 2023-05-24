@@ -60,20 +60,7 @@ class SAM(nn.Module):
         featcov16 = self.bn16(featcov16)
         featcov16 = self.relu(featcov16)
 
-        '''
-        # bp————————————————————————
-        feat_matrix = torch.zeros(featcov16.size(0), 16, 2048)
-        for i in range(16):
-            matrix = featcov16[:, i, :, :]
-            matrix = matrix[:, None, :, :]
-            matrix = matrix.repeat(1, 2048, 1, 1)
-            PFM = featmap * matrix
-            aa = self.avgpool(PFM)
-            feat_matrix[:, i, :] = aa.view(aa.size(0), -1)
-
-        bp_out_feat = feat_matrix.view(feat_matrix.size(0), -1)
-        '''
-        # ----------------------------------------------bp max
+    
         img = featcov16.cpu().detach().numpy()
         img = np.max(img, axis=1)
         img = img - np.min(img)
@@ -85,7 +72,7 @@ class SAM(nn.Module):
         aa = self.avgpool(PFM)
         bp_out_feat = aa.view(aa.size(0), -1)
         bp_out_feat = nn.functional.normalize(bp_out_feat, dim=1)
-        # ----------------------------------------------------------------------------
+ 
 
         '''
         #CBP
@@ -114,21 +101,7 @@ class SAM(nn.Module):
         featcov16 = self.conv16(featmap)
         featcov16 = self.bn16(featcov16)
         featcov16 = self.relu(featcov16)
-        '''
-        feat_matrix = torch.zeros(featcov16.size(0), 16, 2048)
-        
-        for i in range(16):
-            matrix = featcov16[:, i, :, :]
-            matrix = matrix[:, None, :, :]
-            matrix = matrix.repeat(1, 2048, 1, 1)
-            PFM = featmap * matrix
-            aa = self.avgpool(PFM)
 
-            feat_matrix[:, i, :] = aa.view(aa.size(0), -1)
-
-        bp_out_feat = feat_matrix.view(feat_matrix.size(0), -1)
-        '''
-        # ----------------------------------------------bp max
         img = featcov16.cpu().detach().numpy()
         img = np.max(img, axis=1)
         img = img - np.min(img)
@@ -140,7 +113,7 @@ class SAM(nn.Module):
         aa = self.avgpool(PFM)
         bp_out_feat = aa.view(aa.size(0), -1)
         bp_out_feat = nn.functional.normalize(bp_out_feat, dim=1)
-        # ----------------------------------------------------------------------------
+
 
         '''
         # CBP
