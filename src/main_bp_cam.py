@@ -168,33 +168,6 @@ def train(args, model, classifier, dataset_loaders, optimizer, scheduler, device
 
         # TODO: Remove this...
         if torch.isinf(loss_cam_labeled_q).any():
-            """
-            There was a problem before I moved down optimiser.zero(). I have to think that the gradients
-            were getting polluted above.
-            
-            The classifier and kl div losses leading up to the infs are this:
-            5.046670913696289 57.968990325927734
-            9.408784866333008 58.49024200439453
-            33.74223709106445 52.83906173706055
-            38.71967315673828 51.91801452636719
-            83.05970764160156 44.7819709777832
-            98.13899993896484 47.25043487548828
-            337.8395080566406 75.17976379394531
-            5082.45654296875 87.66537475585938
-            
-            By comparison, the new code has the following losses:
-            5.6416015625 58.445308685302734
-            5.469156265258789 38.68390655517578
-            5.374486923217773 53.212135314941406
-            5.509685516357422 39.79650115966797
-            6.054706573486328 44.83692169189453
-            5.932514667510986 41.78059387207031
-            5.885040283203125 31.523330688476562
-            5.862998962402344 25.361289978027344
-            6.09160852432251 27.82227897644043
-            6.265558242797852 33.06561279296875
-            6.15684175491333 20.362117767333984
-            """
             predicted_has_inf = torch.isinf(predict_cam.softmax(dim=-1).log()).any()
             target_has_zeroes = (featmapcam.softmax(dim=-1) == 0).any()
             print('Is Inf')
