@@ -47,9 +47,13 @@ SAM
 ## RUN
 - The running commands for several datasets are shown below. Please refer to ``run.sh`` for commands for datasets with other label ratios and label category.
 ```
-python src/main.py  --root ./StanfordCars --batch_size 24 --logdir vis/ --gpu_id 0 --backbone resnet50  --label_ratio 10 --pretrained
-python src/main.py  --root ./CUB200 --batch_size 24 --logdir vis/ --gpu_id 1 --backbone resnet50 --label_ratio 10 --pretrained
-python src/main.py  --root ./Aircraft --batch_size 24 --logdir vis/ --gpu_id 2 --backbone resnet50 --label_ratio 10 --pretrained
+python src/main_bp_gradcam.py  --root ./StanfordCars --batch_size 24 --logdir vis/ --gpu_id 0 --backbone resnet50  --label_ratio 10 --pretrained
+python src/main_bp_gradcam.py  --root ./CUB200 --batch_size 24 --logdir vis/ --gpu_id 1 --backbone resnet50 --label_ratio 10 --pretrained
+python src/main_bp_gradcam.py  --root ./Aircraft --batch_size 24 --logdir vis/ --gpu_id 2 --backbone resnet50 --label_ratio 10 --pretrained
+
+python src/main_bp_cam.py  --root ./StanfordCars --batch_size 24 --logdir vis/ --gpu_id 0 --backbone resnet50  --label_ratio 10 --pretrained
+python src/main_bp_cam.py  --root ./CUB200 --batch_size 24 --logdir vis/ --gpu_id 1 --backbone resnet50 --label_ratio 10 --pretrained
+python src/main_bp_cam.py  --root ./Aircraft --batch_size 24 --logdir vis/ --gpu_id 2 --backbone resnet50 --label_ratio 10 --pretrained
 
 ```
 Citation
