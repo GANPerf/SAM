@@ -313,7 +313,7 @@ def main():
 
     # TODO: Changed here
     if args.use_bilinear:
-        classifier = Classifier(2048*1, args.class_num).to(device)  ##I have changed!!!
+        classifier = Classifier(2048, args.class_num).to(device)  
     else:
         classifier = Classifier(2048, args.class_num).to(device)
 
